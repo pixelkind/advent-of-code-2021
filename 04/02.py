@@ -26,10 +26,13 @@ for index in range(1, len(lines)):
 # Playing the bingo numbers
 found_row = False
 found_col = False
+winning_boards = []
 winning_board = -1
 winning_number = -1
 for number in random_numbers:
   for index, board in enumerate(boards):
+    if index in winning_boards:
+      continue
     for line in board:
       for x, element in enumerate(line):
         if element[0] == number:
@@ -37,14 +40,18 @@ for number in random_numbers:
           found_row = check_row(line)
           found_col = check_column(board, x)
           if found_row or found_col:
+            winning_boards.append(index)
+            print(winning_boards)
             winning_board = index
             winning_number = number
-            break
-    if found_row or found_col:
+            if len(winning_boards) == len(boards):
+              break
+    if len(winning_boards) == len(boards):
       break
-  if found_row or found_col:
+  if len(winning_boards) == len(boards):
     break
 
+print(winning_board)
 unmarked = 0
 for line in boards[winning_board]:
   for element in line:
